@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const helmet = require('helmet');
 const dotenv = require('dotenv');
+const path = require('path');
+const http = require('http');
 
 const app = express();
 
@@ -80,7 +82,7 @@ app.use('/register', register);
 const port = process.env.PORT || 8080;
 
 server.listen(port, () => {
-    console.log('Server running at port 3000: http://127.0.0.1:3000')
+    console.log(`Server running at port ${port}: http://127.0.0.1:${port}`);
 });
 
 module.exports = app;
