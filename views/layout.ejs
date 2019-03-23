@@ -5,85 +5,94 @@
         
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-    	
-        <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-   
-        <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
+
+        <title>
+            <%-title%>
+        </title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+        <% if (title == "Login | Info Point" || title == "Register | Info Point") { %>
+            <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
     
-        <link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-   
-        <link rel="stylesheet" type="text/css" href="/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+            <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
+        
+            <link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     
-        <link rel="stylesheet" type="text/css" href="/vendor/animate/animate.css">
+            <link rel="stylesheet" type="text/css" href="/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+        
+            <link rel="stylesheet" type="text/css" href="/vendor/animate/animate.css">
+        
+            <link rel="stylesheet" type="text/css" href="/vendor/css-hamburgers/hamburgers.min.css">
+        
+            <link rel="stylesheet" type="text/css" href="/vendor/animsition/css/animsition.min.css">
+        
+            <link rel="stylesheet" type="text/css" href="/vendor/select2/select2.min.css">
     
-        <link rel="stylesheet" type="text/css" href="/vendor/css-hamburgers/hamburgers.min.css">
-    
-        <link rel="stylesheet" type="text/css" href="/vendor/animsition/css/animsition.min.css">
-    
-        <link rel="stylesheet" type="text/css" href="/vendor/select2/select2.min.css">
-   
-        <link rel="stylesheet" type="text/css" href="/vendor/daterangepicker/daterangepicker.css">
-    
-        <link rel="stylesheet" type="text/css" href="/css/util.css">
-        <link rel="stylesheet" type="text/css" href="/css/main.css">
+            <link rel="stylesheet" type="text/css" href="/vendor/daterangepicker/daterangepicker.css">
+        
+            <link rel="stylesheet" type="text/css" href="/css/util.css">
+            <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <% } %>
     
     </head>
 
     <body>
-        <% if (title != "Login | Info Point" && title != "Register | Info Point") { %>
-            <nav class="navbar navbar-dark bg-dark">
-                
-                <a class="navbar-brand" href="/">Info Point</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        
+           
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">Info Point</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarText">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="/">Dashboard <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/register">Sign up</a>
-                        </li>
-                    </ul>
-                    <span class="navbar-text">
-                        Get your information on time!
-                    </span>
-                </div>
-            </nav>
-
-            <div class="container">
-
-                    <%-body%>
-
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Dashboard <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="/logout">Logout</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
             </div>
+        </nav>
 
-        <% } %>
+        <div class="container">
+
+            <%-body%>
+
+        </div>
+
 
         <% if (title == "Login | Info Point" || title == "Register | Info Point") { %>
-            <%-body%>
+           
+            <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+        
+            <script src="/vendor/animsition/js/animsition.min.js"></script>
+        
+            <script src="/vendor/bootstrap/js/popper.js"></script>
+            <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    
+            <script src="/vendor/select2/select2.min.js"></script>
+        
+            <script src="/vendor/daterangepicker/moment.min.js"></script>
+            <script src="/vendor/daterangepicker/daterangepicker.js"></script>
+        
+            <script src="/vendor/countdowntime/countdowntime.js"></script>
+        
+            <script src="/js/main.js"></script>
         <% } %>
-        
-
-        
-	    <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
-    
-        <script src="/vendor/animsition/js/animsition.min.js"></script>
-    
-        <script src="/vendor/bootstrap/js/popper.js"></script>
-        <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
-   
-        <script src="/vendor/select2/select2.min.js"></script>
-    
-        <script src="/vendor/daterangepicker/moment.min.js"></script>
-        <script src="/vendor/daterangepicker/daterangepicker.js"></script>
-    
-        <script src="/vendor/countdowntime/countdowntime.js"></script>
-    
-        <script src="/js/main.js"></script>
 
     </body>
 

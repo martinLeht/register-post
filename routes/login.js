@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-
-router.get('/login', (req, res) => {
+router.get('/', (req, res) => {
     res.render('login', {
         title: 'Login | Info Point'
     });

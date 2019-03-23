@@ -2,7 +2,6 @@ const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const passport = require('passport');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const helmet = require('helmet');
@@ -17,6 +16,7 @@ dotenv.config();
 var url = process.env.MONGOLAB_URI;
 
 mongoose.connect(url, { useNewUrlParser: true });
+
 mongoose.Promise = global.Promise;
 
 var db = mongoose.connection;
@@ -27,18 +27,18 @@ app.use(helmet());
 
 // Bodyparser
 app.use(express.urlencoded({ 
-    extended: true 
+    extended: false
 }));
 
 // EJS view engine and static
-app.use(expressLayouts);
 app.use(express.static(path.join(__dirname + '/static')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
 
 
 app.use(session({
-    secret: 'mithrandir secret',
+    secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -46,10 +46,10 @@ app.use(session({
     }
 }));
 
-
 // Set up passport
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 // Connect flash
 app.use(flash());
@@ -70,14 +70,13 @@ const login = require('./routes/login');
 const logout = require('./routes/logout');
 const register = require('./routes/register');
 
-var server = http.createServer(app);
-
-
 // All routes from URL
 app.use('/', index);
 app.use('/login', login);
 app.use('/logout', logout);
 app.use('/register', register);
+
+const server = http.createServer(app);
 
 const port = process.env.PORT || 8080;
 
