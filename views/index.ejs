@@ -1,2 +1,5 @@
-<h1>WELCOME to dashboard!</h1>
-<a href="/login">Login here</a>
+<% if (user) { %>
+    <h1>Welcome <%-name%>!</h1>
+<% } else { %>
+    <h1>Welcome to Info Point!</h1>
+<% } %>
