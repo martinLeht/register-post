@@ -11,6 +11,9 @@ const http = require('http');
 
 const app = express();
 
+// Passport config
+require('./config/passport')(passport);
+
 dotenv.config();
 
 var url = process.env.MONGOLAB_URI;
@@ -36,17 +39,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 
-
+// Express session
 app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
+    secret: 'mithrandir secret',
+    resave: true,
     saveUninitialized: true,
     cookie: {
         maxAge: 24 * 60 * 60 * 1000
     }
 }));
 
-// Set up passport
+// Set up passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 

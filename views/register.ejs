@@ -1,45 +1,46 @@
 <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-                <form class="login100-form validate-form">
+                <form action="/register" method="POST" class="login100-form validate-form">
                     <span class="login100-form-title p-b-33">
                         Account registeration
                     </span>
 
-                    <% if(typeof errors.length != 'undefined') { %>
-                        <% errors.forEach(funtion(error) { %>
+                    <% if(typeof errors != 'undefined') { %>
+                        <% errors.forEach(function(err) { %>
                             <div class="alert alert-danger" role="alert">
-                                <%= error.msg %>
+                                <%= err.msg %>
                             </div>
-                        <% }) %>
+
+                        <% }); %>
                     <% } %>
     
-                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                        <input class="input100" type="text" name="firstname" placeholder="Firstname">
+                    <div class="wrap-input100 validate-input" data-validate = "First name is required">
+                        <input class="input100" type="text" name="firstname" placeholder="Firstname" value="<%= typeof firstname != 'undefined' ? firstname: '' %>">
                         <span class="focus-input100-1"></span>
                         <span class="focus-input100-2"></span>
                     </div>
 
-                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                        <input class="input100" type="text" name="lastname" placeholder="Lastname">
+                    <div class="wrap-input100 validate-input" data-validate = "Last name is required">
+                        <input class="input100" type="text" name="lastname" placeholder="Last name" value="<%= typeof lastname != 'undefined' ? lastname: '' %>">
                         <span class="focus-input100-1"></span>
                         <span class="focus-input100-2"></span>
                     </div>
     
                     <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                        <input class="input100" type="text" name="email" placeholder="Email">
+                        <input class="input100" type="text" name="email" placeholder="Email" value="<%= typeof email != 'undefined' ? email: '' %>">
                         <span class="focus-input100-1"></span>
                         <span class="focus-input100-2"></span>
                     </div>
     
                     <div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
-                        <input class="input100" type="password" name="pass" placeholder="Password">
+                        <input class="input100" type="password" name="password" placeholder="Password" >
                         <span class="focus-input100-1"></span>
                         <span class="focus-input100-2"></span>
                     </div>
 
-                    <div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
-                        <input class="input100" type="password" name="confirmPass" placeholder="Confirm password">
+                    <div class="wrap-input100 rs1 validate-input" data-validate="You have to confirm the password">
+                        <input class="input100" type="password" name="confirmPass" placeholder="Confirm password" >
                         <span class="focus-input100-1"></span>
                         <span class="focus-input100-2"></span>
                     </div>
