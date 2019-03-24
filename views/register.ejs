@@ -5,6 +5,14 @@
                     <span class="login100-form-title p-b-33">
                         Account registeration
                     </span>
+
+                    <% if(typeof errors.length != 'undefined') { %>
+                        <% errors.forEach(funtion(error) { %>
+                            <div class="alert alert-danger" role="alert">
+                                <%= error.msg %>
+                            </div>
+                        <% }) %>
+                    <% } %>
     
                     <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
                         <input class="input100" type="text" name="firstname" placeholder="Firstname">
