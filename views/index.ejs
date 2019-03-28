@@ -1,5 +1,27 @@
-<% if (user) { %>
-    <h1>Welcome <%-name%>!</h1>
-<% } else { %>
-    <h1>Welcome to Info Point!</h1>
-<% } %>
+<h1>Welcome <%-name%>!</h1>
+
+<form action="/post" method="post">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="email" class="form-control" id="title" placeholder="Some title...">
+      </div>
+      <div class="form-group">
+        <label for="categories">Category</label>
+        <select class="form-control" id="caregories">
+          <option>Engineering</option>
+          <option>Marketing</option>
+          <option>Healthcare</option>
+          <option>Biology</option>
+          <option>Something else</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="body">Post text</label>
+        <textarea class="form-control" id="body" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+      </div>
+
+</form>
+

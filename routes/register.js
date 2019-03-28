@@ -54,8 +54,7 @@ router.post('/', (req, res) => {
                         title: "Register | Info Point",
                         errors: errors,
                         firstname,
-                        lastname,
-                        email
+                        lastname
                     });
                 } else {
                     const newUser = new User( {
@@ -72,7 +71,7 @@ router.post('/', (req, res) => {
                         bcrypt.hash(newUser.password, salt, (err, hash) => {
                             if(err) throw err;
                             
-                            // Ser users password equal to hash and save the user
+                            // Set users password equal to hash and save the user
                             newUser.password = hash;
                             
                             newUser.save()

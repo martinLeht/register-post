@@ -2,15 +2,15 @@ const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated } = require('../config/auth');
 
-router.get('/', (req, res) => {
+router.get('/', ensureAuthenticated, (req, res) => {
     if (req.user) {
         res.render('index', {
             title: 'Dashboard | Info Point',
             name: req.user.firstname
         });
     } else {
-        res.render('index', {
-            title: 'Dashboard | Info Point'
+        res.render('login', {
+            title: 'Login | Info Point'
         });
     }
     
