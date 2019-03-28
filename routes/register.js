@@ -22,12 +22,12 @@ router.post('/', (req, res) => {
 
     // Check fields
     if (!firstname || !lastname || !email || !password || !confirmPass) {
-        errors.push({msg: 'Please fill in all fields'})
+        errors.push({msg: 'Please fill in all fields'});
     }
 
     // Check if passwords match
     if (password !== confirmPass) {
-        errors.push({msg: 'Passwords do not match'})
+        errors.push({msg: 'Passwords do not match'});
     }
 
     // Check password length

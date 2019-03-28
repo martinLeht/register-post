@@ -6,6 +6,10 @@ const PostSchema = new Schema({
         type: String,
         required: true
     },
+    category: {
+        type: String,
+        required: true
+    },
     body: {
         type: String,
         required: true
@@ -17,10 +21,6 @@ const PostSchema = new Schema({
             default: Date.now
         }
     }],
-    category: {
-        type: String,
-        required: true
-    },
     date: { 
         type: Date,
         default: Date.now 
