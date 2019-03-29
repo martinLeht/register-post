@@ -15,11 +15,8 @@ const PostSchema = new Schema({
         required: true
     },
     comments: [{
-        body: String, 
-        date: {
-            type: Date,
-            default: Date.now
-        }
+        type: Schema.Types.ObjectId,
+        ref: 'Comment'
     }],
     date: { 
         type: Date,
