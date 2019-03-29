@@ -35,6 +35,7 @@ router.post('/', (req, res) => {
         errors.push({msg: 'Password has to be atleast 6 characters'});
     }
 
+    // if errors render page
     if(errors.length > 0) {
         res.render('register', {
             title: "Register | Info Point",
@@ -79,7 +80,7 @@ router.post('/', (req, res) => {
                                     req.flash("success_msg", "Successfully registered! You may login now.");
                                     res.redirect("/login");
                                 })
-                                .catch(err => conssole.log(err));
+                                .catch(err => console.log(err));
                         }); 
                     });
                     

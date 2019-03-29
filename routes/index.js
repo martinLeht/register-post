@@ -18,9 +18,17 @@ router.get('/', ensureAuthenticated, (req, res) => {
         .exec((err, post) => {
             if (err) {
                 console.log(">>>ERROR!");
-                req.flash('error_msg', 'ERROR!');
+                req.flash('error_msg', 'An error accured when fetching');
                 res.redirect('/');
             }
+
+            // Setting the populated user on post and comments
+            // password to "undefined" so it is not accessable on client side
+            post._user.password = undefined;
+
+            post.comments.forEach((comment) => {
+                comment._user.password = undefined;
+            });
 
             const postedBy = post._user.firstname + ' ' + post._user.lastname;
             const postedDate = (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear();
