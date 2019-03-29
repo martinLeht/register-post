@@ -34,12 +34,24 @@ router.get('/', ensureAuthenticated, (req, res) => {
             const postedDate = (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear();
 
             if (post) {
-                res.render('index', {
-                    title: 'Dashboard | Info Point',
-                    name: req.user.firstname,
-                    post: post,
-                    postedDate: postedDate,
-                    postedBy: postedBy
+                Comment.find({ '_post': post._id })
+                    .limit(20)
+                    .populate('_user')
+                    .exec((err, comments) => {
+                        
+                        // Populating the user of each comment to get the users name to display above the comment
+                        comments.forEach((comment) => {
+                            comment._user.password = undefined;
+                        });
+
+                        res.render('index', {
+                            title: 'Dashboard | Info Point',
+                            name: req.user.firstname,
+                            post: post,
+                            postedDate: postedDate,
+                            postedBy: postedBy,
+                            comments: comments
+                        });
                 });
             } else {
                 console.log(">>>No post found!");

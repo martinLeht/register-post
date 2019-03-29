@@ -89,9 +89,12 @@
         <div  class="card my-4">
             <h5 class="card-header">Leave a Comment:</h5>
             <div class="card-body">
-                <form action="/comment/<%- post._id %>" method="post">
+                <form class="needs-validaiton" novalidate action="/comment/<%- post._id %>" method="POST">
                     <div class="form-group">
-                        <textarea name="comment" class="form-control" rows="3"></textarea>
+                        <textarea name="comment" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="invalid-feedback">
+                        Cannot comment an empty field
                     </div>
                     <% if (error != '') { %>
                         <div class="alert alert-danger" role="alert">
@@ -99,20 +102,30 @@
                         </div>
                     <% } %>
                     <button type="submit" class="btn btn-primary">Submit</button>
-
                 </form>
             </div>
         </div>
 
-        <% post.comments.forEach((comment) => {%>
+        <% comments.forEach(function(comment) {%>
             <!-- Single Comment -->
             <div class="media mb-4">
                 <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
                 <div class="media-body">
-                    <h5 class="mt-0">Comment</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                    <h5 class="mt-0"><%- comment._user.firstname %> <%- comment._user.lastname %></h5>
+                    <%- comment.body %>
+                </div>
+                <div class="hover-btn">
+                    <% if (comment._user._id.equals(user._id)) { %> 
+                    <form action="/comment/delete/<%- comment._id  %>" method="POST">
+                        <button type="submit" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </form>
+                    <% } %>
                 </div>
             </div>
         <% }); %>
 </div>
+
 
