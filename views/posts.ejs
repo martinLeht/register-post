@@ -1,0 +1,10 @@
+<div class="content">
+    <% posts.forEach(function(post) { %>
+        <h2>Title: <%- post.title %></h2><br>
+        <p>Made by: <%- post._user.firstname %> <%- post._user.lastname %></p><br>
+        <p>Created: <%- post.date %></p><br>
+        <p>Content:<%- post.body %></p><br>
+        <hr>
+    <% }); %>
+
+</div>

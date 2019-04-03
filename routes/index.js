@@ -13,22 +13,17 @@ router.get('/', ensureAuthenticated, (req, res) => {
     // Finding the latest post from database and populating comments and user.
     Post.findOne()
         .sort({ "_id": -1 })
-        .populate('_user')
-        .populate('comments')
+        .populate({
+            path: '_user',
+            select: 'firstname lastname'
+        })
+        //.populate('comments')
         .exec((err, post) => {
             if (err) {
                 console.log(">>>ERROR!");
                 req.flash('error_msg', 'An error accured when fetching');
                 res.redirect('/');
-            }
-
-            // Setting the populated user on post and comments
-            // password to "undefined" so it is not accessable on client side
-            post._user.password = undefined;
-
-            post.comments.forEach((comment) => {
-                comment._user.password = undefined;
-            });
+            }            
 
             const postedBy = post._user.firstname + ' ' + post._user.lastname;
             const postedDate = (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear();
@@ -36,13 +31,12 @@ router.get('/', ensureAuthenticated, (req, res) => {
             if (post) {
                 Comment.find({ '_post': post._id })
                     .limit(20)
-                    .populate('_user')
-                    .exec((err, comments) => {
-                        
-                        // Populating the user of each comment to get the users name to display above the comment
-                        comments.forEach((comment) => {
-                            comment._user.password = undefined;
-                        });
+                    .populate({
+                        path: '_user',
+                        select: 'firstname lastname'
+                    })
+                    .exec((err, comments) => {                        
+                        if(err) throw err;
 
                         res.render('index', {
                             title: 'Dashboard | Info Point',
