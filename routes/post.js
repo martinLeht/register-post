@@ -64,17 +64,23 @@ router.get('/find/:category', ensureAuthenticated, (req, res) => {
     posts = [];
     const category = req.params.category;
 
-    Post.find({ "category": category }, (err, result) => {
-        if(err) throw err;
-        
-        result.forEach(post => {
-            posts.push(post);
-        });
+    Post.find({ "category": category })
+        .populate({
+            path: '_user',
+            select: 'firstname lastname'
+        })
+        .exec((err, result) => {
+            if(err) throw err;
+            
+            result.forEach(post => {
+                posts.push(post);
+            });
 
-        res.render('posts', {
-            title: "Posts | Info Point",
-            posts: posts
-        });
+            res.render('posts', {
+                title: "Posts | Info Point",
+                posts: posts,
+                category: category
+            });
     });
 });
 
@@ -93,7 +99,6 @@ router.get('/find', ensureAuthenticated, (req, res) => {
             if(err) throw err;
             
             result.forEach(post => {
-                console.log(post._user);
                 posts.push(post);
             });
 
