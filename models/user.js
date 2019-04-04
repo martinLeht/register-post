@@ -23,6 +23,9 @@ const UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    lastLogged: {
+        type: Date
+    },
     posts: [{
         type: Schema.Types.ObjectId,
         ref: 'Post'

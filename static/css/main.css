@@ -409,6 +409,12 @@ input.input100 {
   opacity: 1;
 }
 
+.otherFont {
+  
+}
+
+
+
 @media (max-width: 992px) {
   .alert-validate::before {
     visibility: visible;

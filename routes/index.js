@@ -28,6 +28,9 @@ router.get('/', ensureAuthenticated, (req, res) => {
             const postedBy = post._user.firstname + ' ' + post._user.lastname;
             const postedDate = (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear();
 
+            const lastOnline = (req.user.lastLogged.getMonth() + 1) + '/' + req.user.lastLogged.getDate() + '/' +  req.user.lastLogged.getFullYear() + ' | ' +
+                                req.user.lastLogged.getHours() + ':' + req.user.lastLogged.getMinutes() + ':' + req.user.lastLogged.getSeconds();
+
             if (post) {
                 Comment.find({ '_post': post._id })
                     .limit(20)
@@ -41,6 +44,7 @@ router.get('/', ensureAuthenticated, (req, res) => {
                         res.render('index', {
                             title: 'Dashboard | Info Point',
                             name: req.user.firstname,
+                            lastLogged: lastOnline,
                             post: post,
                             postedDate: postedDate,
                             postedBy: postedBy,
