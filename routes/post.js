@@ -6,21 +6,28 @@ const Post = require('../models/post');
 const Comment = require('../models/comment');
 
 
+// Route to get form for creating a post
 router.get('/', ensureAuthenticated, (req, res) => {
     res.render('createPost', {
         title: 'Create Post | Info Point'
     });
 });
 
+
+// Route for creating a post
 router.post('/', ensureAuthenticated, (req, res) => {
+
+    // Assigning post input data to variables from request body
     const {
         postTitle,
         category,
         textBody,
     } = req.body;
 
+    // Error messages set in this on the data verification
     let errors = [];
 
+    // Check if any input data was empty, if so push error message to errors
     if (!postTitle || !category || !textBody) {
         console.log("Title: " + postTitle);
         console.log("Body: " + textBody);
@@ -28,6 +35,7 @@ router.post('/', ensureAuthenticated, (req, res) => {
         errors.push({ msg: 'Fill all fields to share a post' });
     } 
     
+    // if any errors from first layer of verification, render create form with appropriate errors
     if (errors.length > 0) {
         res.render('createPost', {
             title: 'Create Post | Info Point',
@@ -37,9 +45,11 @@ router.post('/', ensureAuthenticated, (req, res) => {
             textBody: textBody
         });
     } else {
-        const userId = req.user._id;
-        console.log(userId);
 
+        // assign user id of current user to dedicated variable
+        const userId = req.user._id;
+
+        // Creating db model of a post
         const newPost = new Post({
             title: postTitle,
             category: category,
@@ -47,6 +57,7 @@ router.post('/', ensureAuthenticated, (req, res) => {
             _user: userId
         });
         
+        // Save newly created post to database and catch error if any errors occure
         newPost.save()
             .then(post => {
                 req.flash('success_msg', 'Successfully shared a post! You can view it below.');
@@ -102,15 +113,18 @@ router.get('/find', ensureAuthenticated, (req, res) => {
 //Route for searching a post that contains a specific string in any part of post
 router.post("/search", ensureAuthenticated, (req, res) => {
 
+    // Trim the trailing and leading whitespaces from search string
     let searchString = req.body.searchString.trim();
     
     if (searchString === '') {
         res.redirect('/post/find');
-    } else {
+    } else { // if string is not empty
 
+        // make search string to lowercase before comparison
         searchString = searchString.toLowerCase();
         const posts = [];
         
+        // fetch post and populate first name and last name of user incase one searches for specific users posts
         Post.find()
             .populate( {
                 path: '_user',
@@ -118,6 +132,9 @@ router.post("/search", ensureAuthenticated, (req, res) => {
             })
             .exec((err, result) => {
                 if (err) throw err;
+
+                // Increment through all String fields and compare if it matches with search substring
+                // if match pushes in to posts array that is passed to rendering view
                 result.forEach(post => {
                     if (post.title.toLowerCase().includes(searchString) || post.body.toLowerCase().includes(searchString)
                         || post.category.toLowerCase().includes(searchString)
@@ -128,6 +145,7 @@ router.post("/search", ensureAuthenticated, (req, res) => {
                     }
                 });
 
+                // If posts found, render posts page, else redirect to dashboard with appropriate flash message
                 if (posts.length > 0) {
                     
                     res.render('posts', {
