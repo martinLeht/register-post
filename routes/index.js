@@ -17,21 +17,46 @@ router.get('/', ensureAuthenticated, (req, res) => {
             path: '_user',
             select: 'firstname lastname'
         })
-        //.populate('comments')
         .exec((err, post) => {
             if (err) {
+                throw err;
+                /*
                 console.log(">>>ERROR!");
                 req.flash('error_msg', 'An error accured when fetching');
-                res.redirect('/');
-            }            
+                res.res.render('index', {
+                    title: 'Dashboard | Info Point',
+                    name: req.user.firstname,
+                    lastLogged: lastOnline
+                });
+                */
+            }
 
-            const postedBy = post._user.firstname + ' ' + post._user.lastname;
-            const postedDate = (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear();
+            let lastOnline = undefined;
 
-            const lastOnline = (req.user.lastLogged.getMonth() + 1) + '/' + req.user.lastLogged.getDate() + '/' +  req.user.lastLogged.getFullYear() + ' | ' +
-                                req.user.lastLogged.getHours() + ':' + req.user.lastLogged.getMinutes() + ':' + req.user.lastLogged.getSeconds();
-
+            if (typeof req.user.lastLogged != 'undefined') {
+                // Formatting the "Last online" date displayed on dashboard
+                lastOnline = (req.user.lastLogged.getMonth() + 1) + '/' + req.user.lastLogged.getDate() + '/' +  req.user.lastLogged.getFullYear() + ' | ' 
+                            + req.user.lastLogged.getHours()
+                            + ':' + ((req.user.lastLogged.getMinutes() < 10) ? '0' + (req.user.lastLogged.getMinutes()) : req.user.lastLogged.getMinutes())
+                            + ':' + ((req.user.lastLogged.getSeconds() < 10) ? '0' + (req.user.lastLogged.getSeconds()) : req.user.lastLogged.getSeconds());
+            }
+            /*
+            // Formatting the "Last online" date displayed on dashboard
+            const lastOnline = (req.user.lastLogged.getMonth() + 1) + '/' + req.user.lastLogged.getDate() + '/' +  req.user.lastLogged.getFullYear() + ' | ' 
+                                + req.user.lastLogged.getHours()
+                                + ':' + ((req.user.lastLogged.getMinutes() < 10) ? '0' + (req.user.lastLogged.getMinutes()) : req.user.lastLogged.getMinutes())
+                                + ':' + ((req.user.lastLogged.getSeconds() < 10) ? '0' + (req.user.lastLogged.getSeconds()) : req.user.lastLogged.getSeconds());
+            */
+            
+            // if a post is found, render dashboard with appropriate variables
             if (post) {
+
+                // Setting name of the user that created the found post and creation date to dedicated variables
+                const postedBy = post._user.firstname + ' ' + post._user.lastname;
+                const postedDate = (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear();
+                const postedUserId = post._user._id;
+
+                // Fetch comments that belong to the post. 
                 Comment.find({ '_post': post._id })
                     .limit(20)
                     .populate({
@@ -39,22 +64,36 @@ router.get('/', ensureAuthenticated, (req, res) => {
                         select: 'firstname lastname'
                     })
                     .exec((err, comments) => {                        
-                        if(err) throw err;
+                        if (err) {
+                            throw err;
+                            /*
+                            console.log(">>>ERROR!");
+                            req.flash('error_msg', 'An error accured when fetching');
+                            res.redirect('/');
+                            */
+                        } else {
+                            res.render('index', {
+                                title: 'Dashboard | Info Point',
+                                name: req.user.firstname,
+                                lastLogged: lastOnline,
+                                post: post,
+                                postedDate: postedDate,
+                                postedBy: postedBy,
+                                postedUserId: postedUserId,
+                                comments: comments
+                            });
+                        }
 
-                        res.render('index', {
-                            title: 'Dashboard | Info Point',
-                            name: req.user.firstname,
-                            lastLogged: lastOnline,
-                            post: post,
-                            postedDate: postedDate,
-                            postedBy: postedBy,
-                            comments: comments
-                        });
+                        
                 });
-            } else {
-                console.log(">>>No post found!");
+            } else { // If no posts are found, render dashboard with flash message
+                console.log(">>> No post found!");
                 req.flash('error_msg', 'No posts in database!');
-                res.redirect('/');
+                res.render('index', {
+                    title: 'Dashboard | Info Point',
+                    name: req.user.firstname,
+                    lastLogged: lastOnline
+                });
             }
     });
 });

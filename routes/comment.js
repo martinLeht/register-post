@@ -40,7 +40,7 @@ router.post('/:id', ensureAuthenticated, (req, res) => {
 });
 
 // Route to delete a comment by its id (Only in use to the author of a post)
-router.post('/delete/:id', ensureAuthenticated, (req, res) => {
+router.get('/delete/:id', ensureAuthenticated, (req, res) => {
     Comment.deleteOne({ "_id": req.params.id }, (err, comment) => {
         if (err) throw err;
         if(comment) {

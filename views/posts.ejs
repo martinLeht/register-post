@@ -1,24 +1,34 @@
 <div class="content">
-    <% if(typeof category == 'undefined') { %>
-        <h1>All posts:</h1><br>
-        <% posts.forEach(function(post) { %>
-            <h2>Title: <%- post.title %></h2><br>
-            <p>Made by: <%- post._user.firstname %> <%- post._user.lastname %></p><br>
-            <p>Created: <%- post.date %></p><br>
-            <p>Content:<%- post.body %></p><br>
-            <a href="/post/view">View post --></a>
-            <hr>
-        <% }); %>
-    <% } else { %>
-        <h1><%- category %> posts:</h1><br>
-        <% posts.forEach(function(post) { %>
-            <h2>Title: <%- post.title %></h2><br>
-            <p>Made by: <%- post._user.firstname %> <%- post._user.lastname %></p><br>
-            <p>Created: <%- post.date %></p><br>
-            <p>Content:<%- post.body %></p><br>
-            <a href="/post/view">View post --></a>
-            <hr>
-        <% }); %>
-    <% } %>
+    <div class="card">
+        <% if(typeof category == 'undefined') { %>
+            <h1 class="card-header">All posts:</h1>
+            <div class="card-body">
+                <h5>Search result: <%- posts.length %></h5>
+                <hr>
+                <% posts.forEach(function(post) { %>
+                    <h2>Title: <%- post.title %></h2><br>
+                    <p>Made by: <%- post._user.firstname %> <%- post._user.lastname %></p><br>
+                    <p>Created: <%- post.date %></p><br>
+                    <p>Content:<%- post.body %></p><br>
+                    <a href="/post/view">View post --></a>
+                    <hr>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <h1 class="card-header"><%- category %> posts:</h1><br>
+            <div class="card-body">
+                <h5>Search result: <%- posts.length %></h5>
+                <hr>
+                <% posts.forEach(function(post) { %>
+                    <h2>Title: <%- post.title %></h2><br>
+                    <p>Made by: <%- post._user.firstname %> <%- post._user.lastname %></p><br>
+                    <p>Created: <%- post.date %></p><br>
+                    <p>Content:<%- post.body %></p><br>
+                    <a href="/post/view">View post --></a>
+                    <hr>
+                <% }); %>
+            </div>
+        <% } %>
+    </div>
 
 </div>
