@@ -1,32 +1,45 @@
-<% if(typeof errors != 'undefined') { %>
-    <% errors.forEach(function(err) { %>
-        <div class="alert alert-danger" role="alert">
-            <%= err.msg %>
-        </div>
-    <% }); %>
-<% } %>
+<div class="card">
+    <h2 class="card-header">Create post:</h2>
 
-<form action="/post" method="post">
-    <div class="form-group">
-        <label for="postTitle">Title</label>
-        <input type="text" class="form-control" name="postTitle" id="postTitle" placeholder="Some title..." value="<%= typeof postTitle != 'undefined' ? postTitle: '' %>">
-    </div>
-    <div class="form-group">
-        <label for="categories">Category</label>
-        <select class="form-control" name="category" id="categories" value="<%= typeof category != 'undefined' ? category: '' %>">
-          <option>Engineering</option>
-          <option>Economics</option>
-          <option>Healthcare</option>
-          <option>Biology</option>
-          <option>Miscelanious</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="textBody">Post text</label>
-        <textarea class="form-control" name="textBody" id="textBody" rows="3" value="<%= typeof textBody != 'undefined' ? textBody: '' %>"></textarea>
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    <div class="card-body">
+
+        <% if(typeof errors != 'undefined') { %>
+            <% errors.forEach(function(err) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= err.msg %>
+                </div>
+            <% }); %>
+        <% } %>
+        
+
+        <form action="/post" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="postTitle">Title</label>
+                    <input type="text" class="form-control" name="postTitle" id="postTitle" placeholder="Some title..." value="<%= typeof postTitle != 'undefined' ? postTitle: '' %>">
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="categories">Category</label>
+                    <select class="form-control" name="category" id="categories" value="<%= typeof category != 'undefined' ? category: '' %>">
+                    <option>Engineering</option>
+                    <option>Economics</option>
+                    <option>Healthcare</option>
+                    <option>Biology</option>
+                    <option>Miscelanious</option>
+                    </select>
+                </div>
+            </div> 
+            
+            <div class="form-group">
+                <label for="textBody">Post text</label>
+                <textarea class="form-control" name="textBody" id="textBody" rows="3" value="<%= typeof textBody != 'undefined' ? textBody: '' %>"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </div>
+
+        </form>
     </div>
 
-</form>
+</div>

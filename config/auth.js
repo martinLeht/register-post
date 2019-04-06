@@ -1,4 +1,5 @@
 module.exports = {
+    // Export a function to perform passport authentication
     ensureAuthenticated: function(req, res, next) {
         if (req.isAuthenticated()) {
             return next();

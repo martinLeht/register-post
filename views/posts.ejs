@@ -3,16 +3,21 @@
         <% if(typeof category == 'undefined') { %>
             <h1 class="card-header">All posts:</h1>
             <div class="card-body">
+                
                 <h5>Search result: <%- posts.length %></h5>
                 <hr>
                 <% posts.forEach(function(post) { %>
-                    <h2>Title: <%- post.title %></h2><br>
-                    <p>Made by: <%- post._user.firstname %> <%- post._user.lastname %></p><br>
-                    <p>Created: <%- post.date %></p><br>
-                    <p>Content:<%- post.body %></p><br>
-                    <a href="/post/view">View post --></a>
-                    <hr>
+                    <div class="card">
+                        <h4 class="card-header">Title: <%- post.title %></h4>
+                        <div class="card-body">
+                            <p>Made by: <%- post._user.firstname %> <%- post._user.lastname %></p>
+                            <p>Created: <%- (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear() %></p>
+                            <p>Content:<%- post.body %></p>
+                            <a href="/post/view">View post --></a>
+                        </div>
+                    </div>
                 <% }); %>
+                
             </div>
         <% } else { %>
             <h1 class="card-header"><%- category %> posts:</h1><br>
@@ -20,12 +25,15 @@
                 <h5>Search result: <%- posts.length %></h5>
                 <hr>
                 <% posts.forEach(function(post) { %>
-                    <h2>Title: <%- post.title %></h2><br>
-                    <p>Made by: <%- post._user.firstname %> <%- post._user.lastname %></p><br>
-                    <p>Created: <%- post.date %></p><br>
-                    <p>Content:<%- post.body %></p><br>
-                    <a href="/post/view">View post --></a>
-                    <hr>
+                    <div class="card">
+                        <h4 class="card-header">Title: <%- post.title %></h4>
+                        <div class="card-body">
+                            <p>Made by: <%- post._user.firstname %> <%- post._user.lastname %></p>
+                            <p>Created: <%- (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear() %></p>
+                            <p>Content: <%- post.body %></p>
+                            <a href="/post/view">View post --></a>
+                        </div>
+                    </div>
                 <% }); %>
             </div>
         <% } %>

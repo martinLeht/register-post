@@ -40,13 +40,6 @@ router.get('/', ensureAuthenticated, (req, res) => {
                             + ':' + ((req.user.lastLogged.getMinutes() < 10) ? '0' + (req.user.lastLogged.getMinutes()) : req.user.lastLogged.getMinutes())
                             + ':' + ((req.user.lastLogged.getSeconds() < 10) ? '0' + (req.user.lastLogged.getSeconds()) : req.user.lastLogged.getSeconds());
             }
-            /*
-            // Formatting the "Last online" date displayed on dashboard
-            const lastOnline = (req.user.lastLogged.getMonth() + 1) + '/' + req.user.lastLogged.getDate() + '/' +  req.user.lastLogged.getFullYear() + ' | ' 
-                                + req.user.lastLogged.getHours()
-                                + ':' + ((req.user.lastLogged.getMinutes() < 10) ? '0' + (req.user.lastLogged.getMinutes()) : req.user.lastLogged.getMinutes())
-                                + ':' + ((req.user.lastLogged.getSeconds() < 10) ? '0' + (req.user.lastLogged.getSeconds()) : req.user.lastLogged.getSeconds());
-            */
             
             // if a post is found, render dashboard with appropriate variables
             if (post) {

@@ -14,6 +14,7 @@ const app = express();
 // Passport config
 require('./config/passport')(passport);
 
+// Configure environment configuration file
 dotenv.config();
 
 var url = process.env.MONGOLAB_URI;

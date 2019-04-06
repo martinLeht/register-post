@@ -6,28 +6,32 @@ const Post = require('../models/post');
 const Comment = require('../models/comment');
 
 
+// Route to create a comment for a specific post, post id in url
 router.post('/:id', ensureAuthenticated, (req, res) => {
 
+    // Declaring all variables to create the comment
     const comment = req.body.comment;
     const postId = req.params.id;
     const userId = req.user._id;
-    console.log(comment);
+
 
     // if comment is empty, redirect back with error
     if (!comment) {
         req.flash('error', 'Cannot comment an empty field');
         res.redirect('/');
     } else {
+        // Creating comment model
         const newComment = new Comment({
             body: comment,
             _user: userId,
             _post: postId
         });
 
+        // Log model for debugging
         console.log(newComment);
 
 
-        // Saving comment to db
+        // Saving comment model to db, catch and log if errors
         newComment.save()
             .then(comment => {
                 console.log('Successful comment submitted');

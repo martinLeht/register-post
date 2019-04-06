@@ -4,13 +4,16 @@ const bcrypt = require('bcryptjs');
 
 const User = require('../models/user');
 
+// Route for rendering the registration form
 router.get('/', (req, res) => {
     res.render('register', {
         title: "Register | Info Point"
     });
 });
 
+// Route for creating and registering a user
 router.post('/', (req, res) => {
+    // Declare variables from request body
     const {
         firstname,
         lastname,
@@ -49,6 +52,7 @@ router.post('/', (req, res) => {
         // All validations passed
         User.findOne({ email: email})
             .then(user => {
+                // If user already registered with given email, redirect with error message
                 if (user) {
                     errors.push({msg: 'User with this email is already registered'});
                     res.render('register', {
@@ -58,6 +62,8 @@ router.post('/', (req, res) => {
                         lastname
                     });
                 } else {
+
+                    // Create user model
                     const newUser = new User( {
                         firstname,
                         lastname,

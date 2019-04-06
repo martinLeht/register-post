@@ -75,6 +75,7 @@ router.get('/find/:category', ensureAuthenticated, (req, res) => {
 
     const category = req.params.category;
 
+    // Find posts according to specific category and populate the users name who created the post
     Post.find({ "category": category })
         .populate({
             path: '_user',
@@ -94,6 +95,7 @@ router.get('/find/:category', ensureAuthenticated, (req, res) => {
 // Route for fetching post by category
 router.get('/find', ensureAuthenticated, (req, res) => {
 
+    // Fetch all posts and populate the users name who created the post
     Post.find()
         .populate({
             path: '_user',
@@ -111,10 +113,10 @@ router.get('/find', ensureAuthenticated, (req, res) => {
 
 
 //Route for searching a post that contains a specific string in any part of post
-router.post("/search", ensureAuthenticated, (req, res) => {
+router.get("/search", ensureAuthenticated, (req, res) => {
 
     // Trim the trailing and leading whitespaces from search string
-    let searchString = req.body.searchString.trim();
+    let searchString = req.query.searchString.trim();
     
     if (searchString === '') {
         res.redirect('/post/find');
