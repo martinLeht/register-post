@@ -37,21 +37,32 @@
                         <ul class="list-unstyled mb-0">
                             <li>
                                 <a href="/post/find">All categories</a>
+
                             </li>
+                            <hr>
                             <li>
                                 <a href="/post/find/Engineering">Engineering</a>
+
                             </li>
+                            <hr>
                             <li>
                                 <a href="/post/find/Economics">Economics</a>
+
                             </li>
+                            <hr>
                             <li>
                                 <a href="/post/find/Healthcare">Healthcare</a>
+
                             </li>
+                            <hr>
                             <li>
                                 <a href="/post/find/Biology">Biology</a>
+
                             </li>
+                            <hr>
                             <li>
                                 <a href="/post/find/Miscelanious">Miscelanious</a>
+
                             </li>
                         </ul>
                     </div>
@@ -83,21 +94,18 @@
                             <% } %>
                         </h2>
 
-                        <!-- User -->
-                        <p class="lead"> by <a href="/user/<%- postedUserId %>"><%- postedBy %></a></p>
-
                         <hr>
 
+                        <!-- User -->
+                        <p> Posted by: <a href="/profile/<%- postedUserId %>"><%- postedBy %></a>, <%- postedDate %> </p>
+
                         <!-- Date/Time and Category -->
-                        <p>
-                            Posted on <%- postedDate %> <br>
-                            Category: <%- post.category %>
-                        </p>
+                        <p>Category: <%- post.category %></p>
 
                         <hr>
 
                         <!-- Post Content -->
-                        <p class="lead otherFont" ><%- post.body %></p>
+                        <p class="lead" ><%- post.body %></p>
 
                         <hr>
 

@@ -10,12 +10,11 @@
             <%-title%>
         </title>
 
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
         <!-- Icon library -->
         <link rel="stylesheet" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
         
-        <% if (title == "Login | Info Point" || title == "Register | Info Point") { %>
             <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
     
             <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
@@ -36,7 +35,7 @@
         
             <link rel="stylesheet" type="text/css" href="/css/util.css">
             <link rel="stylesheet" type="text/css" href="/css/main.css">
-        <% } %>
+        
     
     </head>
 
@@ -67,7 +66,7 @@
                                 <a class="nav-link">|</a>
                         </li>
                         <li class="nav-item active">
-                                <a class="nav-link" href="/user/<%- user._id %>"><i class="fa fa-user" aria-hidden="true"></i>
+                                <a class="nav-link" href="/profile/<%- user._id %>"><i class="fa fa-user" aria-hidden="true"></i>
                                     Profile </a>
                         </li>
                         <li class="nav-item active">
@@ -99,45 +98,30 @@
 
             </div>
 
-            <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
-        
-            <script src="/vendor/animsition/js/animsition.min.js"></script>
-        
-            <script src="/vendor/bootstrap/js/popper.js"></script>
-            <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
-    
-            <script src="/vendor/select2/select2.min.js"></script>
-        
-            <script src="/vendor/daterangepicker/moment.min.js"></script>
-            <script src="/vendor/daterangepicker/daterangepicker.js"></script>
-        
-            <script src="/vendor/countdowntime/countdowntime.js"></script>
-        
-            <script src="/js/main.js"></script>
-
         <% } %>
 
 
         <% if (title == "Login | Info Point" || title == "Register | Info Point") { %>
 
             <%-body%>
-           
-            <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
-        
-            <script src="/vendor/animsition/js/animsition.min.js"></script>
-        
-            <script src="/vendor/bootstrap/js/popper.js"></script>
-            <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
-    
-            <script src="/vendor/select2/select2.min.js"></script>
-        
-            <script src="/vendor/daterangepicker/moment.min.js"></script>
-            <script src="/vendor/daterangepicker/daterangepicker.js"></script>
-        
-            <script src="/vendor/countdowntime/countdowntime.js"></script>
-        
-            <script src="/js/main.js"></script>
+
         <% } %>
+
+        <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+        
+        <script src="/vendor/animsition/js/animsition.min.js"></script>
+    
+        <script src="/vendor/bootstrap/js/popper.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+        <script src="/vendor/select2/select2.min.js"></script>
+    
+        <script src="/vendor/daterangepicker/moment.min.js"></script>
+        <script src="/vendor/daterangepicker/daterangepicker.js"></script>
+    
+        <script src="/vendor/countdowntime/countdowntime.js"></script>
+    
+        <script src="/js/main.js"></script>
 
     </body>
 

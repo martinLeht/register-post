@@ -6,47 +6,63 @@
                 
                 <h5>Search result: <%- posts.length %></h5>
                 <hr>
+
+                <div class="list-group">
                 <% posts.forEach(function(post) { %>
-                    <div class="card">
-                        <h4 class="card-header">
-                            <% if (post._user._id.equals(user._id)) { %> 
-                                <form action="/post/delete/<%- post._id  %>">
-                                    <%- post.title %>
-                                    <button type="submit" class="close" >
-                                        <span aria-hidden="true"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-                                        <span class="sr-only">Close</span>
-                                    </button>
-                                </form>
-                            <% } else { %>
-                                <%- post.title %>
-                            <% } %>
-                        </h4>
-                        <div class="card-body">
-                            <p>Made by: <%- post._user.firstname %> <%- post._user.lastname %></p>
-                            <p>Created: <%- (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear() %></p>
-                            <p>Content:<%- post.body %></p>
-                            <a href="/post/view/<%- post._id %>">View post --></a>
+                    <a href="/post/<%- post._id %>" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1"><%- post.title %></h5>
+                            <hr>
+                            <small>
+                                    <% if (post._user._id.equals(user._id)) { %> 
+                                        <form action="/post/delete/<%- post._id  %>">
+                                            <button type="submit" class="close" >
+                                                <span aria-hidden="true"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                                                <span class="sr-only">Close</span>
+                                            </button>
+                                        </form>
+                                    <% } %>
+                            </small>
                         </div>
-                    </div>
-                <% }); %>
-                
+                        <p class="mb-1"><%- post.body %></p>
+                        <small>
+                            By: <%- post._user.firstname %> <%- post._user.lastname %> <br>
+                            <%- days[post._id] %>
+                        </small>  
+                    </a>        
+                <% }); %>        
+                </div>
             </div>
         <% } else { %>
             <h1 class="card-header"><%- category %> posts:</h1><br>
             <div class="card-body">
                 <h5>Search result: <%- posts.length %></h5>
                 <hr>
-                <% posts.forEach(function(post) { %>
-                    <div class="card">
-                        <h4 class="card-header">Title: <%- post.title %></h4>
-                        <div class="card-body">
-                            <p>Made by: <%- post._user.firstname %> <%- post._user.lastname %></p>
-                            <p>Created: <%- (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear() %></p>
-                            <p>Content: <%- post.body %></p>
-                            <a href="/post/view/<%- post._id %>">View post --></a>
-                        </div>
-                    </div>
-                <% }); %>
+                <div class="list-group">
+                    <% posts.forEach(function(post) { %>
+                        <a href="/post/<%- post._id %>" class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1"><%- post.title %></h5>
+                                <hr>
+                                <small>
+                                        <% if (post._user._id.equals(user._id)) { %> 
+                                            <form action="/post/delete/<%- post._id  %>">
+                                                <button type="submit" class="close" >
+                                                    <span aria-hidden="true"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                                                    <span class="sr-only">Close</span>
+                                                </button>
+                                            </form>
+                                        <% } %>
+                                </small>
+                            </div>
+                            <p class="mb-1"><%- post.body %></p>
+                            <small>
+                                By: <%- post._user.firstname %> <%- post._user.lastname %> <br>
+                                <%- days[post._id] %>
+                            </small>  
+                        </a>        
+                    <% }); %>
+                </div>     
             </div>
         <% } %>
     </div>

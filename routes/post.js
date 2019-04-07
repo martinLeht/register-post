@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const moment = require('moment');
 const { ensureAuthenticated } = require('../config/auth');
 
 const Post = require('../models/post');
@@ -84,10 +85,25 @@ router.get('/find/:category', ensureAuthenticated, (req, res) => {
         .exec((err, result) => {
             if(err) throw err;
 
+            // Put date days ago to dedicated list
+            var postDaysAgo = [];
+
+            result.forEach(post => {
+
+                // Calculate days ago
+                var mom = moment(post.date),
+                    now = moment(),
+                    diffInDays = mom.from(now);
+
+                postDaysAgo[post._id] = diffInDays;
+            });
+
+
             res.render('posts', {
                 title: "Posts | Info Point",
                 posts: result,
-                category: category
+                category: category,
+                days: postDaysAgo
             });
     });
 });
@@ -104,9 +120,20 @@ router.get('/find', ensureAuthenticated, (req, res) => {
         .exec((err, result) => {
             if(err) throw err;
 
+            var postDaysAgo = [];
+
+            result.forEach(post => {
+                // Calculate days ago
+                var mom = moment(post.date),
+                now = moment(),
+                    diffInDays = mom.from(now)
+                postDaysAgo[post._id] = diffInDays;
+            });
+
             res.render('posts', {
                 title: "Posts | Info Point",
-                posts: result
+                posts: result,
+                days: postDaysAgo
             });
     });
 });
@@ -149,10 +176,24 @@ router.get("/search", ensureAuthenticated, (req, res) => {
 
                 // If posts found, render posts page, else redirect to dashboard with appropriate flash message
                 if (posts.length > 0) {
+
+                    // Put date days ago to dedicated list
+                    var postDaysAgo = [];
+
+                    posts.forEach(post => {
+
+                        // Calculate days ago
+                        var mom = moment(post.date),
+                            now = moment(),
+                            diffInDays = mom.from(now);
+
+                        postDaysAgo[post._id] = diffInDays;
+                    });
                     
                     res.render('posts', {
                         title: "Posts | Info Point",
-                        posts: posts
+                        posts: posts,
+                        days: postDaysAgo
                     });
                 } else {
                     req.flash('error_msg', 'No post found with that search word!');
@@ -187,7 +228,7 @@ router.get('/delete/:id', ensureAuthenticated, (req, res) => {
 
 
 // Route to get and view a specific post by its id
-router.get('/view/:id', ensureAuthenticated,(req, res) => {
+router.get('/:id', ensureAuthenticated,(req, res) => {
 
     const postId = req.params.id;
 
@@ -222,7 +263,22 @@ router.get('/view/:id', ensureAuthenticated,(req, res) => {
                         console.log(comments);
 
                         // Format the date for the post
-                        const postDate = (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear();                        
+                        const postDate = (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear();      
+                        
+                        
+                        /*
+                        if ( diffInYears!== 0 ) {
+                            return mom.format('DD MM YYYY')
+                        } else {
+                            if ( diffInDays === "1 day ago" ) {
+                                return 'Yesterday';
+                            } else if ( diffInDays === "2 days ago" ) {
+                                return 'Day Before Yesterday';
+                            } else { 
+                                return mom.format('DD MM');
+                            }
+                        }
+                        */
 
                         res.render('viewPost', {
                             title: "View Post | Info Point",

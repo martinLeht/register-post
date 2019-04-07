@@ -17,18 +17,12 @@
             
             <div class="card-body">
                 <% if (typeof post != 'undefined') { %>
-                    
 
-                    <!-- User -->
-                    <p class="lead"> by <a href="/user/<%- post._user._Id %>"><%- post._user.firstname %> <%- post._user.lastname %></a></p>
+                    <!-- User and Date/Time -->
+                    <p> Posted by: <a href="/profile/<%- post._user._Id %>"><%- post._user.firstname %> <%- post._user.lastname %></a>, <%- postedDate %> </p>
 
-                    <hr>
-
-                    <!-- Date/Time and Category -->
-                    <p>
-                        Posted on <%- postedDate %> <br>
-                        Category: <%- post.category %>
-                    </p>
+                    <!-- Category -->
+                    <p>Category: <%- post.category %></p>
 
                     <hr>
 

@@ -78,6 +78,7 @@ const logout = require('./routes/logout');
 const register = require('./routes/register');
 const post = require('./routes/post');
 const comment = require('./routes/comment');
+const profile = require('./routes/profile');
 
 // All routes from URL
 app.use('/', index);
@@ -86,6 +87,7 @@ app.use('/logout', logout);
 app.use('/register', register);
 app.use('/post', post);
 app.use('/comment', comment);
+app.use('/profile', profile);
 
 const server = http.createServer(app);
 
