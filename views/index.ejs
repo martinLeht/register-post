@@ -69,15 +69,19 @@
                 <div class="card-body">
                     <% if (typeof post != 'undefined') { %>
                         <!-- Title -->
-                        <h2 class="mt-4"><%- post.title %></h2>
-                        <% if (post._user._id.equals(user._id)) { %> 
-                            <form action="/post/delete/<%- post._id  %>">
-                                <button type="submit" class="close" >
-                                    <span aria-hidden="true">×</span>
-                                    <span class="sr-only">Close</span>
-                                </button>
-                            </form>
-                        <% } %>
+                        <h2 class="mt-4">
+                            <% if (post._user._id.equals(user._id)) { %> 
+                                <form action="/post/delete/<%- post._id  %>">
+                                    <%- post.title %>
+                                    <button type="submit" class="close" >
+                                        <span aria-hidden="true"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                                        <span class="sr-only">Close</span>
+                                    </button>
+                                </form>
+                            <% } else { %>
+                                <%- post.title %>
+                            <% } %>
+                        </h2>
 
                         <!-- User -->
                         <p class="lead"> by <a href="/user/<%- postedUserId %>"><%- postedBy %></a></p>

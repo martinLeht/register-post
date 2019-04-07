@@ -1,0 +1,84 @@
+<!-- Post Content Column -->
+    <div class="card my-15">
+            <!-- Title -->
+            <h1 class="card-header">
+                <% if (post._user._id.equals(user._id)) { %> 
+                    <form action="/post/delete/<%- post._id  %>">
+                        <%- post.title %>
+                        <button type="submit" class="close" >
+                            <span aria-hidden="true"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </form>
+                <% } else { %>
+                    <%- post.title %>
+                <% } %>
+            </h1>
+            
+            <div class="card-body">
+                <% if (typeof post != 'undefined') { %>
+                    
+
+                    <!-- User -->
+                    <p class="lead"> by <a href="/user/<%- post._user._Id %>"><%- post._user.firstname %> <%- post._user.lastname %></a></p>
+
+                    <hr>
+
+                    <!-- Date/Time and Category -->
+                    <p>
+                        Posted on <%- postedDate %> <br>
+                        Category: <%- post.category %>
+                    </p>
+
+                    <hr>
+
+                    <!-- Post Content -->
+                    <p class="lead otherFont" ><%- post.body %></p>
+
+                    <hr>
+
+                    <!-- Comments Form -->
+                    <div  class="card my-4">
+                        <h5 class="card-header">Leave a Comment:</h5>
+                        <div class="card-body">
+                            <form class="needs-validaiton" novalidate action="/comment/<%- post._id %>" method="POST">
+                                <div class="form-group">
+                                    <textarea name="comment" class="form-control" rows="3" required></textarea>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Cannot comment an empty field
+                                </div>
+                                <% if (error != '') { %>
+                                    <div class="alert alert-danger" role="alert">
+                                        <%= error %>
+                                    </div>
+                                <% } %>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <% comments.forEach(function(comment) {%>
+                        <!-- Single Comment -->
+                        <div class="media mb-4">
+                            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                            <div class="media-body">
+                                <h5 class="mt-0"><%- comment._user.firstname %> <%- comment._user.lastname %></h5>
+                                <%- comment.body %>
+                            </div>
+                            <div class="hover-btn">
+                                <% if (comment._user._id.equals(user._id)) { %> 
+                                <form action="/comment/delete/<%- comment._id  %>">
+                                    <button type="submit" class="close">
+                                        <span aria-hidden="true">×</span>
+                                        <span class="sr-only">Close</span>
+                                    </button>
+                                </form>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } %>
+            </div>
+        
+    </div>

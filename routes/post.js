@@ -186,4 +186,56 @@ router.get('/delete/:id', ensureAuthenticated, (req, res) => {
 });
 
 
+// Route to get and view a specific post by its id
+router.get('/view/:id', ensureAuthenticated,(req, res) => {
+
+    const postId = req.params.id;
+
+    // Fetching post by supplied id and populating user first name and last name
+    Post.findOne( { "_id": postId })
+        .populate({
+            path: "_user",
+            select: "firstname lastname"
+        })
+        .exec((err, post) => {
+
+            if (err) throw err;
+
+            // Log post for debugging
+            console.log(post);
+
+            // If no post found, redirect to view with list of all posts
+            if (!post) {
+                console.log("No post with the id of " + postId + " was found in the database.");
+                res.redirect('/find');
+            } else { // else fetch all comments to the found post
+                
+                Comment.find({ "_post": post._id })
+                    .populate({
+                        path: "_user",
+                        select: "firstname lastname"
+                    })
+                    .exec((err, comments) => {
+                        
+                        if (err) throw err;
+
+                        console.log(comments);
+
+                        // Format the date for the post
+                        const postDate = (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear();                        
+
+                        res.render('viewPost', {
+                            title: "View Post | Info Point",
+                            post: post,
+                            postedDate: postDate,
+                            comments: comments
+                        });
+
+                    });
+                
+            }
+    });
+});
+
+
 module.exports = router;

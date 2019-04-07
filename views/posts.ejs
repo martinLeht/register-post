@@ -8,12 +8,24 @@
                 <hr>
                 <% posts.forEach(function(post) { %>
                     <div class="card">
-                        <h4 class="card-header">Title: <%- post.title %></h4>
+                        <h4 class="card-header">
+                            <% if (post._user._id.equals(user._id)) { %> 
+                                <form action="/post/delete/<%- post._id  %>">
+                                    <%- post.title %>
+                                    <button type="submit" class="close" >
+                                        <span aria-hidden="true"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                                        <span class="sr-only">Close</span>
+                                    </button>
+                                </form>
+                            <% } else { %>
+                                <%- post.title %>
+                            <% } %>
+                        </h4>
                         <div class="card-body">
                             <p>Made by: <%- post._user.firstname %> <%- post._user.lastname %></p>
                             <p>Created: <%- (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear() %></p>
                             <p>Content:<%- post.body %></p>
-                            <a href="/post/view">View post --></a>
+                            <a href="/post/view/<%- post._id %>">View post --></a>
                         </div>
                     </div>
                 <% }); %>
@@ -31,7 +43,7 @@
                             <p>Made by: <%- post._user.firstname %> <%- post._user.lastname %></p>
                             <p>Created: <%- (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear() %></p>
                             <p>Content: <%- post.body %></p>
-                            <a href="/post/view">View post --></a>
+                            <a href="/post/view/<%- post._id %>">View post --></a>
                         </div>
                     </div>
                 <% }); %>
