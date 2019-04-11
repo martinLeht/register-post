@@ -1,1 +1,224 @@
-<h1>User profile</h1>
+<div class="card">
+    <h1 class="card-header">User profile</h1>
+
+    <div class="card-body">
+        <div class="row my-2">
+            <div class="col-lg-4 order-lg-1 text-center">
+                <img src="//placehold.it/150" class="mx-auto img-fluid img-circle d-block" alt="avatar">
+                <h6 class="mt-2">Upload a different photo</h6>
+                <label class="custom-file">
+                    <input type="file" id="file" class="custom-file-input">
+                    <span class="custom-file-control">Choose file</span>
+                </label>
+            </div>
+            <div class="col-lg-8 order-lg-2">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Edit</a>
+                    </li>
+                </ul>
+                <div class="tab-content py-4">
+                    <div class="tab-pane active" id="profile">
+                        <h5 class="mb-3">User Profile</h5>
+                        <% if(success_msg != '') { %>
+                            <div class="alert alert-success" role="alert">
+                                <%= success_msg %>
+                            </div>
+                        <% } %>
+        
+                        <% if(error_msg != '') { %>
+                            <div class="alert alert-danger" role="alert">
+                                <%= error_msg %>
+                            </div>
+                        <% } %>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Name</h6>
+                                <p>
+                                    <%- user.firstname %> <%- user.lastname %>
+                                </p>
+                                <br>
+                                <h6>Email</h6>
+                                <p>
+                                    <%- user.email %>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Last online</h6>
+                                <% if (typeof lastOnline != 'undefined') { %>
+                                    <p><%- lastOnline %></p>
+                                <% } %>
+                                <br>
+                                <h6>Address</h6>
+                                    <p>Street: <%- user.street %></p>
+                                    <p>City: <%- user.city %></p>
+                                    <p>Postal Code (zip): <%- user.postalCode %></p>
+                            </div>
+                            <div class="col-md-12">
+                                <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span> Posts </h5>
+                                <hr>
+                                <% if (hasNoPosts) { %>
+                                    <div class="alert alert-info alert-dismissable">
+                                        <a class="panel-close close" data-dismiss="alert">×</a> You haven't shared any posts yet
+                                    </div>
+                                <% } else { %>
+                                <table class="table table-hover table-striped">
+                                    <% posts.forEach(function(post) { %>
+                                        <tbody>                                    
+                                            <tr>
+                                                <td>
+                                                    <span class="float-right font-weight-bold">
+                                                        <a href="post/delete/<%- post._id %>"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                    </span>
+                                                    <a href="/post/<%- post._id %>"><h5><%- post.title %></h5></a>
+                                                    <p><%- post.body %></p>
+                                                    <span class="float-left"><%- daysAgo[post._id] %></span>
+                                                </td>
+                                            </tr>
+                                        </tbody> 
+                                    <% }); %>
+                                <% } %>
+                                </table>
+                            </div>
+                        </div>
+                        <!--/row-->
+                    </div>
+                    
+                    <div class="tab-pane" id="edit">
+                        <form action="/profile/update/<%- user._id %>" method="post" >
+                            <h5 class="mb-3">General Information</h5>
+                            <hr>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">First name *</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" name="firstname" type="text" value="<%= typeof user.firstname != 'undefined' ? user.firstname: '' %>" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Last name *</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" name="lastname" type="text" value="<%= typeof user.lastname != 'undefined' ? user.lastname: '' %>" required>                                  
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Email *</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" name="email" type="email" value="<%= typeof user.email != 'undefined' ? user.email: '' %>" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Address</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" name="street" type="text" value="<%= typeof user.street != 'undefined' ? user.street: '' %>" placeholder="Street">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label"></label>
+                                <div class="col-lg-6">
+                                    <input class="form-control" name="city" type="text" value="<%= typeof user.city != 'undefined' ? user.city: '' %>" placeholder="City">
+                                </div>
+                                <div class="col-lg-3">
+                                    <input class="form-control" name="postalCode" type="text" value="<%= typeof user.postalCode != 'undefined' ? user.postalCode: '' %>" placeholder="Postal Code">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Password *</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" name="pass" type="password" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Confirm Password *</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" name="confirmPass" type="password" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label"></label>
+                                    <div class="col-lg-9">
+                                        <input type="submit" class="btn btn-primary" value="Update Profile">
+                                    </div>
+                            </div>
+                        </form>
+
+                        <form action="/profile/changePassword/<%- user._id %>" method="post">
+                            <h5 class="mb-3">Password Changing</h5>
+                            <hr>
+
+                            <% if (error_msg != '') { %>
+                                <div class="alert alert-danger alert-dismissable">
+                                    <a class="panel-close close" data-dismiss="alert">×</a> <%- error_msg %>
+                                </div>
+                            <% } %>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Old Password *</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" name="oldPass" type="password" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">New Password *</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" name="newPass" type="password" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Confirm Password *</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" name="confirmPass" type="password" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label"></label>
+                                <div class="col-lg-9">
+                                    <input type="submit" class="btn btn-primary" value="Change Password">
+                                </div>
+                            </div>
+                        </form>
+
+                        <form action="/profile/delete/<%- user._id  %>" role="form" method="post">
+
+                            <h5 class="mb-3" style="color: red">Danger Zone!</h5>
+                            <hr>
+
+                            <div class="form-group row">
+                                <div class="col-lg-9">
+                                    <button type="submit" class="btn btn-primary">
+                                        Delete Account <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+          'use strict';
+          window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+              form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+              }, false);
+            });
+          }, false);
+        })();
+</script>

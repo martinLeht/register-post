@@ -15,6 +15,15 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    street: {
+        type: String
+    },
+    city: {
+        type: String
+    },
+    postalCode: {
+        type: String
+    },
     password: {
         type: String,
         required: true

@@ -13,7 +13,6 @@ router.get('/', (req, res) => {
 
         user.save((err) => {
             if (err) throw err;
-            console.log(user.lastLogged);
         });
     });
     req.logOut();
