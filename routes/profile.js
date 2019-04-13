@@ -1,87 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const moment = require('moment');
 const { ensureAuthenticated } = require('../config/auth');
 const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
-const multer = require('multer');
-const GridFsStorage = require('multer-gridfs-storage');
-const path = require('path');
-const Grid = require('gridfs-stream');
-const methodOverride = require('method-override'); 
 
 const Post = require('../models/post');
 const User = require('../models/user');
 const Comment = require('../models//comment');
 
 
-const conn = mongoose.connection;
-
-// Init gfs
-let gfs;
-
-conn.once('open', () => {
-    // Initialize stream
-    gfs = Grid(conn.db, mongoose.mongo);
-    gfs.collection('uploads');
-});
-
-// Create storage engine for uploading picture
-const storage = new GridFsStorage({
-    url: process.env.MONGOLAB_URI,
-    file: (req, file) => {
-        return new Promise((resolve, reject) => {
-            crypto.randomBytes(16, (err, buf) => {
-                if (err) {
-                    return reject(err);
-                }
-                const filename = buf.toString('hex') + path.extname(file.originalname);
-                const fileInfo = {
-                    filename: filename,
-                    bucketName: 'uploads'
-                };
-                resolve(fileInfo);
-            });
-        });
-    }
-  });
-const upload = multer({ storage });
-
-
-// @route POST /profile/upload/:id
-// @desc Upload a profile picture
-router.post('/upload/:id', ensureAuthenticated, upload.single('file'), (req, res) => {
-
-    const userId = req.params.id;
-
-    if (userId == req.user._id) {
-
-        User.findById(userId, (err, user) => {
-            if (err) throw err;
-
-            
-            if (req.file) {
-                console.log(req.file);
-                const filename = req.file.filename;
-                console.log(filename);
-                user.profilePic = filename;
-
-                user.save()
-                    .then(user => {
-                        console.log(user);
-                        req.flash('success_msg', 'Profile picture successfully updated');
-                        res.redirect('/profile/' + req.user._id);
-                    })
-                    .catch(err => console.log(err));
-            }
-        });
-
-    } else {
-        req.flash('error_msg', 'You dont have the persmission to upload pictures to this profile');
-        res.redirect('/profile/' + req.user._id);
-    }
-});
 
 
 // @route GET /profile/:id

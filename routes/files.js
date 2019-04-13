@@ -8,6 +8,7 @@ const Grid = require('gridfs-stream');
 const mongoose = require('mongoose');
 const { ensureAuthenticated } = require('../config/auth');
 
+const User = require('../models/user');
 
 const conn = mongoose.connection;
 
@@ -40,6 +41,70 @@ const storage = new GridFsStorage({
     }
   });
 const upload = multer({ storage });
+
+
+// @route POST /profile/upload/:id
+// @desc Upload a profile picture
+router.post('/upload/:id', ensureAuthenticated, upload.single('file'), (req, res) => {
+
+    const userId = req.params.id;
+
+    if (userId == req.user._id) {
+
+        // Find user by if and set the newly uploaded files unique filename as users "profilePic" field
+        User.findById(userId, (err, user) => {
+            if (err) throw err;
+
+            
+            if (req.file) {
+                console.log(req.file);
+                const filename = req.file.filename;
+                console.log(filename);
+                user.profilePic = filename;
+
+                user.save()
+                    .then(user => {
+                        console.log(user);
+                        req.flash('success_msg', 'Profile picture successfully updated');
+                        res.redirect('/profile/' + req.user._id);
+                    })
+                    .catch(err => console.log(err));
+            }
+        });
+
+    } else {
+        req.flash('error_msg', 'You dont have the persmission to upload pictures to this profile');
+        res.redirect('/profile/' + req.user._id);
+    }
+});
+
+
+// @route DELETE /files/:filename
+// @desc Delete a file by filename
+router.delete('/delete/:filename', ensureAuthenticated, (req, res) => {
+
+    gfs.remove({ filename: req.params.filename, root: 'uploads'}, (err, gridStore) => {
+        if (err) {
+            return res.status(404).json({err: err});
+        }
+
+        User.findById(req.user._id, (err, user) => {
+            if (err) throw err;
+
+            user.profilePic = undefined;
+
+            user.save()
+                .then(user => {
+                    console.log(user);
+                    req.flash('success_msg', 'Profile picture deleted successfully');
+                    res.redirect('/profile/' + req.user._id);
+                })
+                .catch(err => console.log(err));
+
+        });
+
+    });
+});
 
 
 // @route GET /files

@@ -4,20 +4,27 @@
     <div class="card-body">
         <div class="row my-2">
             <div class="col-lg-4 order-lg-1 text-center">
-                <% if (typeof user.profilePic != 'undefined' || user.profilePic != '') { %>
+                <% if (typeof user.profilePic != 'undefined') { %>
                     <img src="/files/image/<%- user.profilePic %>" class="mx-auto img-fluid img-circle d-block" alt="avatar">
                 <% } else { %>
                     <img src="/images/defaultProfilePic.jpg" class="mx-auto img-fluid img-circle d-block" alt="avatar">
                 <% } %>
                 <br>
-
-                <form action="/profile/upload/<%- user._id %>" method="post" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                
+                
+                <form action="/files/upload/<%- user._id %>" method="post" accept="image/png, image/jpeg" enctype="multipart/form-data">
                     <div class="custom-file mb-2">
-                        <input type="file" name="file" id="file" class="custom-file-input">
+                        <input type="file" name="file" id="file" class="custom-file-input" required>
                         <label for="file" class="custom-file-label">Choose File</label>
                     </div>
                     <input type="submit" value="Upload" class="btn btn-primary btn-block">
                 </form>
+                <% if (typeof user.profilePic != 'undefined' || user.profilePic != '') { %>
+                    <form action="/files/delete/<%- user.profilePic %>?_method=DELETE" method="post">
+                        <input type="submit" value="Delete" class="btn btn-danger btn-block mt-2">
+                    </form>
+                <% } %>
+                <br>
             </div>
 
             <div class="col-lg-8 order-lg-2">
