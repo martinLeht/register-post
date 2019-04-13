@@ -54,7 +54,7 @@ router.get('/', ensureAuthenticated, (req, res) => {
                     .limit(20)
                     .populate({
                         path: '_user',
-                        select: 'firstname lastname'
+                        select: 'firstname lastname profilePic'
                     })
                     .exec((err, comments) => {                        
                         if (err) {

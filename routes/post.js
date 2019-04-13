@@ -254,7 +254,7 @@ router.get('/:id', ensureAuthenticated,(req, res) => {
                 Comment.find({ "_post": post._id })
                     .populate({
                         path: "_user",
-                        select: "firstname lastname"
+                        select: "firstname lastname profilePic"
                     })
                     .exec((err, comments) => {
                         

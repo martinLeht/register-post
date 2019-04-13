@@ -55,7 +55,11 @@
                     <% comments.forEach(function(comment) {%>
                         <!-- Single Comment -->
                         <div class="media mb-4">
-                            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                                <% if (typeof comment._user.profilePic != 'undefined') { %>
+                                    <img src="/files/image/<%- comment._user.profilePic %>" class="d-flex mr-3 rounded-circle" alt="" height="50" width="50">
+                                <% } else { %>
+                                    <img src="/images/defaultProfilePic.jpg" class="d-flex mr-3 rounded-circle" alt="" height="50" width="50">
+                                <% } %>
                             <div class="media-body">
                                 <h5 class="mt-0"><%- comment._user.firstname %> <%- comment._user.lastname %></h5>
                                 <%- comment.body %>
