@@ -1,4 +1,5 @@
 const express = require('express');
+
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const passport = require('passport');
@@ -8,6 +9,8 @@ const helmet = require('helmet');
 const dotenv = require('dotenv');
 const path = require('path');
 const http = require('http');
+const methodOverride = require('method-override'); 
+const Grid = require('gridfs-stream');
 
 const app = express();
 
@@ -17,14 +20,15 @@ require('./config/passport')(passport);
 // Configure environment configuration file
 dotenv.config();
 
-var url = process.env.MONGOLAB_URI;
+// Mongo URI
+const url = process.env.MONGOLAB_URI_OLD;
 
+// Create mongo connection
 mongoose.connect(url, { useNewUrlParser: true });
-
 mongoose.Promise = global.Promise;
 
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'mongodb connection error:'));
+const conn = mongoose.connection;
+conn.on('error', console.error.bind(console, 'mongodb connection error:'));
 
 // Set up helmet
 app.use(helmet());
@@ -33,6 +37,7 @@ app.use(helmet());
 app.use(express.urlencoded({ 
     extended: false
 }));
+app.use(methodOverride('_method'))
 
 // EJS view engine and static
 app.use(express.static(path.join(__dirname + '/static')));
@@ -79,6 +84,7 @@ const register = require('./routes/register');
 const post = require('./routes/post');
 const comment = require('./routes/comment');
 const profile = require('./routes/profile');
+const files = require('./routes/files');
 
 // All routes from URL
 app.use('/', index);
@@ -88,6 +94,7 @@ app.use('/register', register);
 app.use('/post', post);
 app.use('/comment', comment);
 app.use('/profile', profile);
+app.use('/files', files);
 
 const server = http.createServer(app);
 

@@ -4,13 +4,22 @@
     <div class="card-body">
         <div class="row my-2">
             <div class="col-lg-4 order-lg-1 text-center">
-                <img src="//placehold.it/150" class="mx-auto img-fluid img-circle d-block" alt="avatar">
-                <h6 class="mt-2">Upload a different photo</h6>
-                <label class="custom-file">
-                    <input type="file" id="file" class="custom-file-input">
-                    <span class="custom-file-control">Choose file</span>
-                </label>
+                <% if (typeof user.profilePic != 'undefined' || user.profilePic != '') { %>
+                    <img src="/files/image/<%- user.profilePic %>" class="mx-auto img-fluid img-circle d-block" alt="avatar">
+                <% } else { %>
+                    <img src="/images/defaultProfilePic.jpg" class="mx-auto img-fluid img-circle d-block" alt="avatar">
+                <% } %>
+                <br>
+
+                <form action="/profile/upload/<%- user._id %>" method="post" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                    <div class="custom-file mb-2">
+                        <input type="file" name="file" id="file" class="custom-file-input">
+                        <label for="file" class="custom-file-label">Choose File</label>
+                    </div>
+                    <input type="submit" value="Upload" class="btn btn-primary btn-block">
+                </form>
             </div>
+
             <div class="col-lg-8 order-lg-2">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
@@ -59,7 +68,7 @@
                                     <p>Postal Code (zip): <%- user.postalCode %></p>
                             </div>
                             <div class="col-md-12">
-                                <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span> Posts </h5>
+                                <h5 class="mt-2">Posts </h5>
                                 <hr>
                                 <% if (hasNoPosts) { %>
                                     <div class="alert alert-info alert-dismissable">
