@@ -22,6 +22,7 @@
 }
 
 body, html {
+  background-color: rgb(246, 241, 241);
 	height: 100%;
 	font-family: OpenSans-Regular, sans-serif;
 }

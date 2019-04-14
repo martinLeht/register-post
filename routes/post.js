@@ -265,20 +265,6 @@ router.get('/:id', ensureAuthenticated,(req, res) => {
                         // Format the date for the post
                         const postDate = (post.date.getMonth() + 1) + '/' + post.date.getDate() + '/' +  post.date.getFullYear();      
                         
-                        
-                        /*
-                        if ( diffInYears!== 0 ) {
-                            return mom.format('DD MM YYYY')
-                        } else {
-                            if ( diffInDays === "1 day ago" ) {
-                                return 'Yesterday';
-                            } else if ( diffInDays === "2 days ago" ) {
-                                return 'Day Before Yesterday';
-                            } else { 
-                                return mom.format('DD MM');
-                            }
-                        }
-                        */
 
                         res.render('viewPost', {
                             title: "View Post | Info Point",

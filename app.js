@@ -21,7 +21,7 @@ require('./config/passport')(passport);
 dotenv.config();
 
 // Mongo URI
-const url = process.env.MONGOLAB_URI_OLD;
+const url = process.env.MONGOLAB_URI;
 
 // Create mongo connection
 mongoose.connect(url, { useNewUrlParser: true });

@@ -55,20 +55,48 @@ router.post('/upload/:id', ensureAuthenticated, upload.single('file'), (req, res
         User.findById(userId, (err, user) => {
             if (err) throw err;
 
-            
-            if (req.file) {
-                console.log(req.file);
-                const filename = req.file.filename;
-                console.log(filename);
-                user.profilePic = filename;
+            // If user already has a defined profile picture, delete the old from db 
+            // and set the new pic filename as user profilePic
+            if (typeof user.profilePic != 'undefined') {
 
-                user.save()
-                    .then(user => {
-                        console.log(user);
-                        req.flash('success_msg', 'Profile picture successfully updated');
-                        res.redirect('/profile/' + req.user._id);
-                    })
-                    .catch(err => console.log(err));
+                gfs.remove({ filename: user.profilePic, root: 'uploads'}, (err, gridStore) => {
+
+                    if (err) {
+                        return res.status(404).json({err: err});
+                    }
+                    
+                    if (req.file) {
+                        console.log(req.file);
+                        const filename = req.file.filename;
+                        console.log(filename);
+                        user.profilePic = filename;
+    
+                        user.save()
+                            .then(user => {
+                                console.log(user);
+                                req.flash('success_msg', 'Profile picture successfully updated');
+                                res.redirect('/profile/' + req.user._id);
+                            })
+                            .catch(err => console.log(err));
+                    }
+            
+                });
+
+            } else {
+                if (req.file) {
+                    console.log(req.file);
+                    const filename = req.file.filename;
+                    console.log(filename);
+                    user.profilePic = filename;
+
+                    user.save()
+                        .then(user => {
+                            console.log(user);
+                            req.flash('success_msg', 'Profile picture successfully updated');
+                            res.redirect('/profile/' + req.user._id);
+                        })
+                        .catch(err => console.log(err));
+                }
             }
         });
 
